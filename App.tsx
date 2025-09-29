@@ -1,9 +1,9 @@
 import React, { useState, useCallback } from 'react';
-import { CredentialsForm } from './components/CredentialsForm.tsx';
-import { InstructionDisplay } from './components/InstructionDisplay.tsx';
-import { Spinner } from './components/Spinner.tsx';
-import { generateAutomationSteps } from './services/geminiService.ts';
-import { LogoIcon } from './components/Icons.tsx';
+import { CredentialsForm } from './components/CredentialsForm';
+import { InstructionDisplay } from './components/InstructionDisplay';
+import { Spinner } from './components/Spinner';
+import { generateAutomationSteps } from './services/geminiService';
+import { LogoIcon } from './components/Icons';
 
 const App: React.FC = () => {
   const [email, setEmail] = useState<string>('');

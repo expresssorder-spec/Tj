@@ -1,5 +1,5 @@
 import React from 'react';
-import { UserIcon, LockIcon } from './Icons.tsx';
+import { UserIcon, LockIcon } from './Icons';
 
 interface CredentialsFormProps {
   email: string;
