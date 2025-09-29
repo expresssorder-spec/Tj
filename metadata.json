@@ -1,0 +1,5 @@
+{
+  "name": "مساعد جود إكسبريس",
+  "description": "مساعد ذكاء اصطناعي لإنشاء تعليمات خطوة بخطوة لعمل bons de paiement على منصة جود إكسبريس.",
+  "requestFramePermissions": []
+}
