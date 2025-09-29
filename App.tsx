@@ -25,7 +25,15 @@ const App: React.FC = () => {
       const result = await generateAutomationSteps();
       setInstructions(result);
     } catch (err) {
-      setError('حدث خطأ. تأكد من إعداد الخادم بشكل صحيح أو حاول مرة أخرى لاحقاً.');
+      console.error("Caught error in App component:", err);
+      let errorMessage = 'حدث خطأ. تأكد من إعداد الخادم بشكل صحيح أو حاول مرة أخرى لاحقاً.';
+      
+      // Provide a more specific error message for the common API key issue.
+      if (err instanceof Error && err.message && err.message.toLowerCase().includes('api key not valid')) {
+          errorMessage = 'فشل الاتصال بالخادم: مفتاح API غير صالح. يرجى التأكد من أن مفتاح Gemini API تم إعداده بشكل صحيح في بيئة التشغيل.';
+      }
+      
+      setError(errorMessage);
     } finally {
       setIsLoading(false);
     }

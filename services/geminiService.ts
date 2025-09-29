@@ -41,9 +41,8 @@ export const generateAutomationSteps = async (): Promise<string> => {
     return text.trim();
   } catch (error) {
     console.error("Error calling Gemini API:", error);
-    if (error instanceof Error && error.message.includes('API key not valid')) {
-        throw new Error("The configured Gemini API key is invalid.");
-    }
-    throw new Error("Failed to generate instructions from Gemini API.");
+    // Re-throw the original error to be handled by the UI component.
+    // This provides more specific error details to the caller.
+    throw error;
   }
 };
