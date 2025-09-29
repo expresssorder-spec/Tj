@@ -2,13 +2,11 @@
  * Generates a step-by-step guide for creating payment vouchers on Joud Express.
  * @returns {Promise<string>} A string containing the formatted instructions.
  */
+import { GoogleGenAI } from '@google/genai';
+
 export const generateAutomationSteps = async (): Promise<string> => {
   // The API key is now handled by the environment variable `process.env.API_KEY`
   // which is assumed to be configured in the execution environment.
-
-  // Dynamically import the GoogleGenAI class only when the function is called.
-  // This prevents the entire app from failing to load if the module has issues.
-  const { GoogleGenAI } = await import('@google/genai');
   
   const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
 
