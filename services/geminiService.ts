@@ -1,4 +1,3 @@
-
 /**
  * Generates a step-by-step guide for creating payment vouchers on Joud Express.
  * @returns {Promise<string>} A string containing the formatted instructions.
