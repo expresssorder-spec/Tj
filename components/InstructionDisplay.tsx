@@ -1,6 +1,5 @@
-
 import React, { useState } from 'react';
-import { CopyIcon, CheckIcon } from './Icons';
+import { CopyIcon, CheckIcon } from './Icons.tsx';
 
 interface InstructionDisplayProps {
   instructions: string;
