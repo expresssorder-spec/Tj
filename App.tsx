@@ -4,10 +4,9 @@ import { CredentialsForm } from './components/CredentialsForm';
 import { InstructionDisplay } from './components/InstructionDisplay';
 import { Spinner } from './components/Spinner';
 import { generateAutomationSteps } from './services/geminiService';
-import { LogoIcon, KeyIcon } from './components/Icons';
+import { LogoIcon } from './components/Icons';
 
 const App: React.FC = () => {
-  const [apiKey, setApiKey] = useState<string>('');
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
   const [instructions, setInstructions] = useState<string>('');
@@ -15,10 +14,6 @@ const App: React.FC = () => {
   const [error, setError] = useState<string | null>(null);
 
   const handleGenerateInstructions = useCallback(async () => {
-    if (!apiKey) {
-      setError('المرجو إدخال مفتاح API الخاص بـ Gemini أولاً.');
-      return;
-    }
     if (!email || !password) {
       setError('المرجو إدخال معلومات تسجيل الدخول الخاصة بك.');
       return;
@@ -28,14 +23,14 @@ const App: React.FC = () => {
     setInstructions('');
 
     try {
-      const result = await generateAutomationSteps(apiKey);
+      const result = await generateAutomationSteps();
       setInstructions(result);
     } catch (err) {
-      setError('حدث خطأ. تأكد من صلاحية مفتاح API أو حاول مرة أخرى لاحقاً.');
+      setError('حدث خطأ. تأكد من إعداد الخادم بشكل صحيح أو حاول مرة أخرى لاحقاً.');
     } finally {
       setIsLoading(false);
     }
-  }, [apiKey, email, password]);
+  }, [email, password]);
 
   return (
     <div className="min-h-screen text-slate-200 flex flex-col items-center p-4 sm:p-6 lg:p-8 font-sans">
@@ -54,32 +49,6 @@ const App: React.FC = () => {
 
         <main className="bg-slate-800/60 rounded-2xl shadow-lg p-6 sm:p-8 border border-slate-700/80 backdrop-blur-sm space-y-8">
           <div>
-            <label htmlFor="apiKey" className="block text-sm font-medium text-slate-300 mb-2">
-                مفتاح Gemini API
-            </label>
-            <div className="relative">
-                <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3">
-                    <KeyIcon />
-                </div>
-                <input
-                    type="password"
-                    id="apiKey"
-                    name="apiKey"
-                    value={apiKey}
-                    onChange={(e) => setApiKey(e.target.value)}
-                    placeholder="أدخل مفتاح API الخاص بك هنا"
-                    className="w-full bg-slate-700/50 border border-slate-600 text-slate-200 rounded-lg py-3 pr-10 pl-4 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-blue-400 transition"
-                    aria-label="Gemini API Key"
-                />
-            </div>
-            <p className="text-slate-500 mt-2 text-xs">
-                يمكنك الحصول على مفتاحك من <a href="https://aistudio.google.com/app/apikey" target="_blank" rel="noopener noreferrer" className="text-blue-400 hover:underline">Google AI Studio</a>. المفتاح لا يتم تخزينه أو مشاركته.
-            </p>
-          </div>
-          
-          <hr className="border-slate-700/50" />
-
-          <div>
             <p className="text-slate-400 mb-6 text-sm">
               دخل معلومات تسجيل الدخول لحسابك في <a href="https://admin.joud-express.com" target="_blank" rel="noopener noreferrer" className="text-blue-400 hover:underline">Admin.joud-express.com</a>. هاد المعلومات كتبقى عندك فالجهاز ديالك فقط ومكتسجلش.
             </p>
@@ -94,7 +63,7 @@ const App: React.FC = () => {
           <div className="text-center">
             <button
               onClick={handleGenerateInstructions}
-              disabled={isLoading || !apiKey || !email || !password}
+              disabled={isLoading || !email || !password}
               className="w-full sm:w-auto bg-gradient-to-r from-blue-500 to-teal-400 text-white font-bold py-3 px-8 rounded-lg shadow-lg hover:scale-105 disabled:hover:scale-100 transform transition-transform duration-300 focus:outline-none focus:ring-4 focus:ring-blue-300/50 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center mx-auto"
             >
               {isLoading ? (

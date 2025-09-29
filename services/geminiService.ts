@@ -1,19 +1,17 @@
 
 /**
  * Generates a step-by-step guide for creating payment vouchers on Joud Express.
- * @param {string} apiKey The user-provided Google Gemini API key.
  * @returns {Promise<string>} A string containing the formatted instructions.
  */
-export const generateAutomationSteps = async (apiKey: string): Promise<string> => {
-  if (!apiKey) {
-    throw new Error("Gemini API key is required.");
-  }
+export const generateAutomationSteps = async (): Promise<string> => {
+  // The API key is now handled by the environment variable `process.env.API_KEY`
+  // which is assumed to be configured in the execution environment.
 
   // Dynamically import the GoogleGenAI class only when the function is called.
   // This prevents the entire app from failing to load if the module has issues.
   const { GoogleGenAI } = await import('@google/genai');
   
-  const ai = new GoogleGenAI({ apiKey });
+  const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
 
   const prompt = `
     You are an expert assistant. Your task is to generate a step-by-step guide in Moroccan Darija (المغربية الدارجة) for a user who wants to create payment vouchers ('bon de paiement pour livreur') for their delivery personnel on the website 'admin.joud-express.com'.
@@ -47,7 +45,7 @@ export const generateAutomationSteps = async (apiKey: string): Promise<string> =
   } catch (error) {
     console.error("Error calling Gemini API:", error);
     if (error instanceof Error && error.message.includes('API key not valid')) {
-        throw new Error("Invalid Gemini API key provided.");
+        throw new Error("The configured Gemini API key is invalid.");
     }
     throw new Error("Failed to generate instructions from Gemini API.");
   }
